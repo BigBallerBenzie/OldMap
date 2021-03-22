@@ -5,7 +5,7 @@ setwd("D:/Maps/Old Map")
 #topo_map <- raster::brick("	https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/GeoTIFF/WA/WA_Mt%20Rainier_242672_1928_125000_geo.tif")
 #topo_map <- raster::stack(topo_map) 
 
-topo_map <- topo_map <- raster::brick("mttate1.tif")
+topo_map <- topo_map <- raster::brick("myakejima1.tif")
 topo_map <- raster::stack(topo_map)
 # 
 #locations <- data.frame(matrix(extent(topo_map), ncol = 2))  
@@ -13,6 +13,7 @@ topo_map <- raster::stack(topo_map)
 #elevation <- get_elev_raster(locations, z = 15, prj = projstring)
 
 elevation <- get_elev_raster(topo_map, z = 10)
+plot(elevation)
 #elevation1 = raster::raster("N35E138.hgt")
 
 #crop elevation to the full map extent (past neatline)
@@ -24,8 +25,8 @@ base_raster <- elevation * 0 + 450
 
 ## I want to crop the elevation raster to the neatlines
 
-x <- c(137.500, 137.500, 137.750, 137.750)
-y <- c(36.500, 36.667, 36.500, 36.667)
+x <- c(139.450, 139.450, 139.575, 139.575)
+y <- c(34.042, 34.125, 34.042, 34.125)
 xy <- cbind(x,y)
 S <- SpatialPoints(xy, proj4string = CRS("+proj=longlat +ellps=clrk66 +datum=NAD27 +no_defs "))
 
@@ -64,14 +65,14 @@ elev_mat %>%
   add_shadow(ambient_shadow, 0.25) %>%
   plot_map()
 
-plot_3d(topo_rgb_array,elev_mat, zscale = 30, windowsize = c(1800,2400), 
+plot_3d(topo_rgb_array,elev_mat, zscale = 20, windowsize = c(1800,2400), 
         phi = 40, theta = 135, zoom = 0.9, 
         background = "grey30", shadowcolor = "grey5", 
         soliddepth = -50, shadowdepth = -100)
-render_camera(theta = 0, phi = 80, zoom = 0.7, fov = 0)
-#render_camera(theta = -0, phi = 40, zoom = 0.12, fov = 150)
-render_highquality(lightintensity = 500, samples = 400,
-                   width = 7200, height = 4800)
-render_movie(filename = "tate.mp4", type = "orbit",
-             phi = 40,theta = 0,frames = 1440, fps = 60)
+#render_camera(theta = 0, phi = 89, zoom = 0.7, fov = 0)
+#render_camera(theta = -0, phi = 60, zoom = 0.12, fov = 150)
+render_highquality('myakijima.png', lightintensity = 500, samples = 400,
+                   width = 7200, height = 4800, lightdirection = 290)
+
+
 
